@@ -49,25 +49,44 @@ RUN pip3 install flask
 RUN pip3 install flask_sqlalchemy
 RUN pip3 install moviepy
 
-# ---for deploy---
-#RUN curl -L -O https://github.com/one-color-low/ReBone_v2/archive/master.zip
-#RUN unzip master.zip && rm master.zip
+## for compose
+RUN pip3 install gunicorn
 
-#RUN mv ReBone_v2-fix-for-exact-deploy ReBone_v2
+# ↓---for remote build---↓
+RUN curl -L -O https://github.com/one-color-low/ReBone_v2/archive/master.zip
+RUN unzip master.zip && rm master.zip
 
-## setups
-#RUN /ReBone_v2/rebone_VC/setup.sh
-#RUN unzip pretrain_data.zip && rm pretrain_data.zip
-#RUN chmod +x /ReBone_v2/rebone_vmdl/setup.sh
-#RUN /ReBone_v2/rebone_vmdl/setup.sh
+RUN mv ReBone_v2-master ReBone_v2
 
-# ---for local build---
-RUN mkdir ReBone_v2
-COPY ./ /ReBone_v2
+RUN /ReBone_v2/rebone_VC/setup.sh
+RUN unzip pretrain_data.zip && rm pretrain_data.zip
+
+# ※↓最初からpretrain_dataディレクトリをgitから削除しておくことでやらなくて済む
+RUN rm /ReBone_v2/rebone_VC/pretrain_data/cache/dummy
+RUN rm -r /ReBone_v2/rebone_VC/pretrain_data
+
+RUN mv /pretrain_data /ReBone_v2/rebone_VC
+# ↑---for remote build---↑
+
+
+# ↓---for local build---↓
+#RUN mkdir ReBone_v2
+#COPY ./ /ReBone_v2
+# ↑--for local build---↑
 
 ## setups
 RUN chmod +x /ReBone_v2/rebone_vmdl/setup.sh
 RUN /ReBone_v2/rebone_vmdl/setup.sh
 RUN mv /data /ReBone_v2/rebone_vmdl
 
-CMD ["bash"]
+WORKDIR /ReBone_v2
+
+RUN touch gunicorn_conf.py
+
+RUN rm gunicorn_conf.py
+
+COPY gunicorn_conf.py ./
+
+#CMD ["gunicorn", "app:app", "-b", "0.0.0.0:5000", "-c", "gunicorn_conf.py"]
+
+CMD [ "bash" ]
