@@ -1,5 +1,5 @@
-FROM tensorflow/tensorflow:1.8.0-gpu-py3
-
+#FROM tensorflow/tensorflow:1.8.0-gpu-py3
+FROM tensorflow/tensorflow:1.8.0-py3
 WORKDIR "/"
 
 ENV DEBIAN_FRONTEND=noninteractive
@@ -58,6 +58,7 @@ RUN unzip master.zip && rm master.zip
 
 RUN mv ReBone_v2-master ReBone_v2
 
+RUN mkdir unko
 RUN /ReBone_v2/rebone_VC/setup.sh
 RUN unzip pretrain_data.zip && rm pretrain_data.zip
 
@@ -87,6 +88,6 @@ RUN rm gunicorn_conf.py
 
 COPY gunicorn_conf.py ./
 
-#CMD ["gunicorn", "app:app", "-b", "0.0.0.0:5000", "-c", "gunicorn_conf.py"]
+CMD ["gunicorn", "app:app", "-b", ":5000", "-c", "gunicorn_conf.py"]
 
-CMD [ "bash" ]
+#CMD [ "bash" ]
