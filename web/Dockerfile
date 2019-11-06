@@ -88,6 +88,8 @@ RUN rm gunicorn_conf.py
 
 COPY gunicorn_conf.py ./
 
-CMD ["gunicorn", "app:app", "-b", ":5000", "-c", "gunicorn_conf.py"]
+#CMD ["gunicorn", "app:app", "-b", ":5000", "-c", "gunicorn_conf.py"]
 
 #CMD [ "bash" ]
+
+CMD [ "python","app.py" ]
