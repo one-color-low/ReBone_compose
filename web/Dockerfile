@@ -95,9 +95,10 @@ RUN mv pose_est_mod rebone_v2/
 ### VC用の学習モデルを用意
 RUN /ReBone_v2/rebone_VC/setup.sh
 RUN unzip pretrain_data.zip && rm pretrain_data.zip
-RUN mv pretrain_data rebone_v2/rebone_VC/
+RUN rm -rf /ReBone_v2/rebone_VC/pretrain_data/
+RUN mv pretrain_data ReBone_v2/rebone_VC/
 
-## ---for local build---
+## ---for local build---S
 #RUN mkdir ReBone_v2
 #COPY ./ /ReBone_v2
 
