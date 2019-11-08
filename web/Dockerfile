@@ -22,8 +22,8 @@ RUN apt-get install -y curl unzip lv
 RUN apt-get install -y libsm6 libgl1 libxrender1
 
 # gpuにする場合は以下をコメントアウト
-RUN pip uninstall tensorflow
-RUN pip install tensorflow==1.8.0
+#RUN pip uninstall tensorflow
+#RUN pip install tensorflow==1.8.0
 
 ## others
 RUN apt-get install -y git
