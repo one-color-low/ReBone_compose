@@ -86,11 +86,11 @@ RUN unzip master.zip && rm master.zip
 RUN mv ReBone_v2-master ReBone_v2
 
 ### PE用のモジュールを用意
-RUN curl -sc /tmp/cookie "https://drive.google.com/uc?export=download&id=1K1eF4mb2D19G27fnvTVzJRT-yPIKJpXW" > /dev/null
-RUN CODE="$(awk '/_warning_/ {print $NF}' /tmp/cookie)"
-RUN curl -Lb /tmp/cookie "https://drive.google.com/uc?export=download&confirm=${CODE}&id=1K1eF4mb2D19G27fnvTVzJRT-yPIKJpXW" -o pose_est_mod.zip
-RUN unzip pose_est_mod.zip && rm pose_est_mod.zip
-RUN mv pose_est_mod rebone_v2/
+#RUN curl -sc /tmp/cookie "https://drive.google.com/uc?export=download&id=1K1eF4mb2D19G27fnvTVzJRT-yPIKJpXW" > /dev/null
+#RUN CODE="$(awk '/_warning_/ {print $NF}' /tmp/cookie)"
+#RUN curl -Lb /tmp/cookie "https://drive.google.com/uc?export=download&confirm=${CODE}&id=1K1eF4mb2D19G27fnvTVzJRT-yPIKJpXW" -o pose_est_mod.zip
+#RUN unzip pose_est_mod.zip && rm pose_est_mod.zip
+#RUN mv pose_est_mod rebone_v2/
 
 ### VC用の学習モデルを用意
 RUN /ReBone_v2/rebone_VC/setup.sh
@@ -102,14 +102,14 @@ RUN mv pretrain_data ReBone_v2/rebone_VC/
 #RUN mkdir ReBone_v2
 #COPY ./ /ReBone_v2
 
-WORKDIR /ReBone_v2/pose_est_mod/tf_pose_estimation/tf_pose/pafprocess
-RUN swig -python -c++ pafprocess.i
-RUN python3 setup.py build_ext --inplace
+#WORKDIR /ReBone_v2/pose_est_mod/tf_pose_estimation/tf_pose/pafprocess
+#RUN swig -python -c++ pafprocess.i
+#RUN python3 setup.py build_ext --inplace
 
 WORKDIR /ReBone_v2
 
 #CMD ["gunicorn", "app:app", "-b", ":5000", "-c", "gunicorn_conf.py"]
 
-#CMD [ "bash" ]
+CMD [ "bash" ]
 
-CMD [ "python","app.py" ]
+#CMD [ "python","app.py" ]
