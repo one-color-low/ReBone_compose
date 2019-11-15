@@ -89,10 +89,10 @@ RUN mv ReBone_v2-master ReBone_v2
 RUN chmod a+x /ReBone_v2/pose_est_mod/setup.sh
 RUN /ReBone_v2/pose_est_mod/setup.sh
 RUN unzip pose_est_mod_data.zip && rm pose_est_mod_data.zip
-RUN mv pose_est_mod_data/FCRN_DepthPrediction_vmd/data/ ReBone_v2/pose_est_mod_data/FCRN_DepthPrediction_vmd/
-RUN mv pose_est_mod_data/VMD_3d_pose_baseline_multi/data/ ReBone_v2/pose_est_mod_data/VMD_3d_pose_baseline_multi/
-RUN mv pose_est_mod_data/d3_pose_baseline_vmd/data/ ReBone_v2/pose_est_mod_data/d3_pose_baseline_vmd/
-RUN mv pose_est_mod_data/d3_pose_baseline_vmd/experiments/ ReBone_v2/pose_est_mod_data/d3_pose_baseline_vmd/
+RUN mv pose_est_mod_data/FCRN_DepthPrediction_vmd/data/ ReBone_v2/pose_est_mod/FCRN_DepthPrediction_vmd/
+RUN mv pose_est_mod_data/VMD_3d_pose_baseline_multi/data/ ReBone_v2/pose_est_mod/VMD_3d_pose_baseline_multi/
+RUN mv pose_est_mod_data/d3_pose_baseline_vmd/data/ ReBone_v2/pose_est_mod/d3_pose_baseline_vmd/
+RUN mv pose_est_mod_data/d3_pose_baseline_vmd/experiments/ ReBone_v2/pose_est_mod/d3_pose_baseline_vmd/
 
 ### VC用の学習モデルを用意
 RUN /ReBone_v2/rebone_VC/setup.sh
