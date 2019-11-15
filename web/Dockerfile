@@ -23,7 +23,7 @@ RUN apt-get install -y libsm6 libgl1 libxrender1
 
 # gpuにする場合は以下をコメントアウト
 #RUN pip uninstall tensorflow
-RUN pip install tensorflow==1.8.0
+RUN pip3 install tensorflow==1.8.0
 
 ## others
 RUN apt-get install -y git
@@ -65,7 +65,7 @@ RUN pip3 install scikit-image
 RUN pip3 install scipy
 RUN pip3 install slidingwindow
 RUN pip3 install tqdm
-RUN pip3 install git+https://github.com/ppwwyyxx/tensorpack.git
+#RUN pip3 install git+https://github.com/ppwwyyxx/tensorpack.git
 
 ## for vc
 RUN pip3 install librosa
@@ -85,12 +85,14 @@ RUN curl -L -O https://github.com/one-color-low/ReBone_v2/archive/master.zip
 RUN unzip master.zip && rm master.zip
 RUN mv ReBone_v2-master ReBone_v2
 
-### PE用のモジュールを用意
-#RUN curl -sc /tmp/cookie "https://drive.google.com/uc?export=download&id=1K1eF4mb2D19G27fnvTVzJRT-yPIKJpXW" > /dev/null
-#RUN CODE="$(awk '/_warning_/ {print $NF}' /tmp/cookie)"
-#RUN curl -Lb /tmp/cookie "https://drive.google.com/uc?export=download&confirm=${CODE}&id=1K1eF4mb2D19G27fnvTVzJRT-yPIKJpXW" -o pose_est_mod.zip
-#RUN unzip pose_est_mod.zip && rm pose_est_mod.zip
-#RUN mv pose_est_mod rebone_v2/
+### PE用の重いデータを用意
+RUN chmod a+x /ReBone_v2/pose_est_mod/setup.sh
+RUN /ReBone_v2/pose_est_mod/setup.sh
+RUN unzip pose_est_mod_data.zip && rm pose_est_mod_data.zip
+RUN mv pose_est_mod_data/FCRN_DepthPrediction_vmd/data/ ReBone_v2/pose_est_mod_data/FCRN_DepthPrediction_vmd/
+RUN mv pose_est_mod_data/VMD_3d_pose_baseline_multi/data/ ReBone_v2/pose_est_mod_data/VMD_3d_pose_baseline_multi/
+RUN mv pose_est_mod_data/d3_pose_baseline_vmd/data/ ReBone_v2/pose_est_mod_data/d3_pose_baseline_vmd/
+RUN mv pose_est_mod_data/d3_pose_baseline_vmd/experiments/ ReBone_v2/pose_est_mod_data/d3_pose_baseline_vmd/
 
 ### VC用の学習モデルを用意
 RUN /ReBone_v2/rebone_VC/setup.sh
@@ -98,7 +100,7 @@ RUN unzip pretrain_data.zip && rm pretrain_data.zip
 RUN rm -rf /ReBone_v2/rebone_VC/pretrain_data/
 RUN mv pretrain_data ReBone_v2/rebone_VC/
 
-## ---for local build---S
+## ---for local build---
 #RUN mkdir ReBone_v2
 #COPY ./ /ReBone_v2
 
